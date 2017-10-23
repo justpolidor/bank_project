@@ -59,7 +59,7 @@ public class ApiWrapperServiceImpl implements ApiWrapperService {
             balance = jsonArray.get(0).get("balance").textValue();
             availableBalance = jsonArray.get(0).get("availableBalance").textValue();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Exception message: "+e.getMessage());
         }
         LOG.info("Balance: "+ balance +" | availableBalance: "+availableBalance);
         return new AccountBalanceResponse(balance, availableBalance);
@@ -91,7 +91,7 @@ public class ApiWrapperServiceImpl implements ApiWrapperService {
             esito = BAIServiceOutputJson.get("Esito").asText();
             idBonifico = BAIServiceOutputJson.get("IDBonifico").asText();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Exception message: "+e.getMessage());
         }
 
         LOG.info("esito: "+ esito + " | idBonifico: "+idBonifico);
