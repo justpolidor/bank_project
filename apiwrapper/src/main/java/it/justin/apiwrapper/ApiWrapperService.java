@@ -6,6 +6,6 @@ import it.justin.model.MoneyTransfer;
 
 public interface ApiWrapperService {
 
-    AccountBalanceResponse getAccountBalance(String accountNumber);
+    AccountBalanceResponse getAccountBalance(Long accountNumber);
     MoneyTransferResponse doMoneyTransfer(MoneyTransfer moneyTransfer);
 }

@@ -30,6 +30,24 @@ public class AccountBalance {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AccountBalance that = (AccountBalance) o;
+
+        if (balance != null ? !balance.equals(that.balance) : that.balance != null) return false;
+        return availableBalance != null ? availableBalance.equals(that.availableBalance) : that.availableBalance == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = balance != null ? balance.hashCode() : 0;
+        result = 31 * result + (availableBalance != null ? availableBalance.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "AccountBalance{" +
                 "balance='" + balance + '\'' +

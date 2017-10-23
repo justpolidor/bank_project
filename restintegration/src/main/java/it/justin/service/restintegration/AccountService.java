@@ -13,7 +13,7 @@ public interface AccountService {
     @GET
     @Path("/getbalance/{accountId}")
     @Produces(MediaType.APPLICATION_JSON)
-    AccountBalanceResponse getBalance(@PathParam("accountId") String accountId);
+    AccountBalanceResponse getBalance(@PathParam("accountId") Long accountId);
 
     @POST
     @Path("/moneytransfer")

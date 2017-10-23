@@ -41,7 +41,7 @@ public class ApiWrapperServiceImpl implements ApiWrapperService {
         this.restTemplate = new RestTemplateBuilder().build();
     }
 
-    public AccountBalanceResponse getAccountBalance(String accountNumber) {
+    public AccountBalanceResponse getAccountBalance(Long accountNumber) {
         LOG.info(this.getClass().getName() + " -> getAccountBalance() with account number:" + accountNumber);
         headers.setContentType(MediaType.APPLICATION_JSON);
 

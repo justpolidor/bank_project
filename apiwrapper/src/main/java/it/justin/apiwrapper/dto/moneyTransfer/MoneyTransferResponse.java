@@ -38,6 +38,24 @@ public class MoneyTransferResponse {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MoneyTransferResponse that = (MoneyTransferResponse) o;
+
+        if (idBonifico != null ? !idBonifico.equals(that.idBonifico) : that.idBonifico != null) return false;
+        return esito != null ? esito.equals(that.esito) : that.esito == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = idBonifico != null ? idBonifico.hashCode() : 0;
+        result = 31 * result + (esito != null ? esito.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "MoneyTransferResponse{" +
                 "idBonifico='" + idBonifico + '\'' +
