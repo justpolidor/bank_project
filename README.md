@@ -44,3 +44,4 @@ GET api/account-service/v1/getbalance/{accountId} Content-Type: application/json
     "availableBalance": "450"
 }
 ```
+Nota: si può utilizzare il wrapper maven fornito direttamente nella cartella. 
