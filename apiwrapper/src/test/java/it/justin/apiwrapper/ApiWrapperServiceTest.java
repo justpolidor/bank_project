@@ -9,6 +9,7 @@ import it.justin.model.MoneyTransfer;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 
 import org.slf4j.Logger;
@@ -17,10 +18,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.client.HttpStatusCodeException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,41 +44,31 @@ public class ApiWrapperServiceTest {
     public WireMockRule wireMock = new WireMockRule(
             WireMockConfiguration.options().dynamicPort());
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Autowired
     private ApiWrapperService apiWrapperService;
 
     @Autowired
     private ApiWrapperServiceProperties apiWrapperServiceProperties;
 
+
     @Before
     public void contextLoads() throws Exception {
         this.apiWrapperServiceProperties.
-                setBalanceEndpoint("http://localhost:"+this.wireMock.port() + "/api/account-service/v1/getbalance/"+accountNumber);
+                setBalanceEndpoint("http://localhost:"+this.wireMock.port() + "/api/account-service/v1/getbalance/");
         this.apiWrapperServiceProperties
                 .setMoneyTranferEndpoint("http://localhost:"+this.wireMock.port() + "/api/account-service/v1/moneytransfer");
     }
 
     @Test
-    public void getAccountBalanceData() throws Exception{
+    public void accountBalanceDataShouldBeEqual() throws Exception{
         LOG.info(apiWrapperServiceProperties.getBalanceEndpoint());
         this.wireMock.stubFor(any(urlEqualTo("/api/account-service/v1/getbalance/"+accountNumber))
                 .willReturn(aResponse().withStatus(200)
                 .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .withBody("{\n" +
-                        "  \"status\": {\n" +
-                        "    \"code\": \"OK\",\n" +
-                        "    \"description\": \"Mock Balance Retrieved\"\n" +
-                        "  },\n" +
-                        "  \"error\": {\n" +
-                        "    \"description\": \"\"\n" +
-                        "  },\n" +
-                        "  \"payload\": [\n" +
-                        "    {\n" +
-                        "      \"balance\": \"100\",\n" +
-                        "      \"availableBalance\": \"200\"\n" +
-                        "    }\n" +
-                        "  ]\n" +
-                        "}")));
+                .withBodyFile("accountBalanceResponse.json")));
         AccountBalanceResponse accountBalanceResponse = this.apiWrapperService.getAccountBalance(accountNumber);
         assertThat(accountBalanceResponse.getBalance()).isEqualTo("100");
         assertThat(accountBalanceResponse.getAvailableBalance()).isEqualTo("200");
@@ -83,7 +76,7 @@ public class ApiWrapperServiceTest {
     }
 
     @Test
-    public void postMoneyTransfer() throws Exception{
+    public void moneyTransferShouldBeEqual() throws Exception{
         this.wireMock.stubFor(post(urlEqualTo("/api/account-service/v1/moneytransfer"))
                 .withRequestBody(equalToJson("{\n" +
                         "  \"payer_iban\": \"x\",\n" +
@@ -95,83 +88,19 @@ public class ApiWrapperServiceTest {
                         "}"))
                 .willReturn(aResponse().withStatus(201)
                 .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .withBody("{\n" +
-                        "    \"status\": {\n" +
-                        "        \"code\": \"OK\",\n" +
-                        "        \"description\": \"Mock Money Transfer Successful\"\n" +
-                        "    },\n" +
-                        "    \"error\": {\n" +
-                        "        \"description\": \"\"\n" +
-                        "    },\n" +
-                        "    \"payload\": [\n" +
-                        "        {\n" +
-                        "            \"RichiestaBonificoResponse\": {\n" +
-                        "                \"BAIServiceOutput\": {\n" +
-                        "                    \"IDBonifico\": \"xxxxxxxx\",\n" +
-                        "                    \"ModalitaEsecuzione\": \"REAL_TIME\",\n" +
-                        "                    \"Esito\": \"OK\",\n" +
-                        "                    \"WarningMessage\": null,\n" +
-                        "                    \"WarningMessageForPDF\": null,\n" +
-                        "                    \"Motivazione\": \"ESAURITO\",\n" +
-                        "                    \"CRO\": \"47220358711\",\n" +
-                        "                    \"NumeroContabile\": \"xxxxxxxx\",\n" +
-                        "                    \"CondizioniBonifico\": {\n" +
-                        "                        \"Condizione\": {\n" +
-                        "                            \"CodiceCondizione\": \"xxxxxxxx\",\n" +
-                        "                            \"Descrizione\": \" Comm.Bon.Stessa Banca \",\n" +
-                        "                            \"Divisa\": null,\n" +
-                        "                            \"isPenale\": null,\n" +
-                        "                            \"Valore\": \"0.00\"\n" +
-                        "                        }\n" +
-                        "                    },\n" +
-                        "                    \"DataValutaBeneficiario\": \"05/07/2016\",\n" +
-                        "                    \"DataValutaOrdinante\": \"05/07/2016\",\n" +
-                        "                    \"IdContabile\": \"1074392698\",\n" +
-                        "                    \"Ordinante\": \"ProvaSender\",\n" +
-                        "                    \"Causale\": \"Bonifico in PRE\",\n" +
-                        "                    \"Beneficiario\": \"ProvaReceiver\",\n" +
-                        "                    \"NumeroProtocolloOperazione\": \"20160705000000010191\",\n" +
-                        "                    \"TipoAgevolazione\": null,\n" +
-                        "                    \"BICBeneficiario\": \"SELBIT2BXXX\",\n" +
-                        "                    \"TipoSpese\": \"SHA\",\n" +
-                        "                    \"ContoAddebitoSpese\": {\n" +
-                        "                        \"Conto\": {\n" +
-                        "                            \"IDConto\": null,\n" +
-                        "                            \"NumeroConto\": null,\n" +
-                        "                            \"TipoConto\": null,\n" +
-                        "                            \"IBAN\": null\n" +
-                        "                        }\n" +
-                        "                    },\n" +
-                        "                    \"ContoOrdinante\": \"52724226990\",\n" +
-                        "                    \"NomeBeneficiario\": \"ProvaReceiver\",\n" +
-                        "                    \"IndirizzoBeneficiario\": null,\n" +
-                        "                    \"ContoBeneficiario\": \"IT08W03268223000EM000000101\",\n" +
-                        "                    \"BICBancaBeneficiario\": \"SELBIT2BXXX\",\n" +
-                        "                    \"NomeBancaBeneficiario\": null,\n" +
-                        "                    \"CittaBancaBeneficiario\": null,\n" +
-                        "                    \"PaeseBancaBeneficiario\": \"IT\",\n" +
-                        "                    \"Importo\": null,\n" +
-                        "                    \"ImportoOrdine\": {\n" +
-                        "                        \"ValoreImporto\": \"1.00\",\n" +
-                        "                        \"DivisaImporto\": {\n" +
-                        "                            \"CodiceDivisa\": \"EUR\"\n" +
-                        "                        }\n" +
-                        "                    },\n" +
-                        "                    \"DataOrdine\": \"05/07/2016\",\n" +
-                        "                    \"DataRegolamento\": \"05/07/2016\",\n" +
-                        "                    \"DataEsecuzione\": \"05/07/2016\",\n" +
-                        "                    \"URI\": null,\n" +
-                        "                    \"NumeroProtocollo\": null,\n" +
-                        "                    \"Cambi\": null,\n" +
-                        "                    \"ControvaloreAddebito\": null\n" +
-                        "                }\n" +
-                        "            }\n" +
-                        "        }\n" +
-                        "    ]\n" +
-                        "}")));
+                .withBodyFile("moneyTransferResponse.json")));
         MoneyTransferResponse moneyTransferResponse = this.apiWrapperService.
                 doMoneyTransfer(new MoneyTransfer("x","x","Justin","1.00","x","x"));
         assertThat(moneyTransferResponse.getEsito()).isEqualTo("OK");
+    }
+
+    @Test
+    public void accountBalanceWhenNotFoundShouldHave404Code()throws Exception{
+        this.wireMock.stubFor(any(urlEqualTo("/api/account-service/v1/getbalance/2"))
+        .willReturn(aResponse().withStatus(404)));
+        this.thrown.expect(HttpStatusCodeException.class);
+        this.apiWrapperService.getAccountBalance(2L);
+
     }
 
 }

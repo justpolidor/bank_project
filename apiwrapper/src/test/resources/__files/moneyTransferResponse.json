@@ -1,0 +1,74 @@
+{
+  "status": {
+    "code": "OK",
+    "description": "Mock Money Transfer Successful"
+  },
+  "error": {
+    "description": ""
+  },
+  "payload": [
+    {
+      "RichiestaBonificoResponse": {
+        "BAIServiceOutput": {
+          "IDBonifico": "xxxxxxxx",
+          "ModalitaEsecuzione": "REAL_TIME",
+          "Esito": "OK",
+          "WarningMessage": null,
+          "WarningMessageForPDF": null,
+          "Motivazione": "ESAURITO",
+          "CRO": "47220358711",
+          "NumeroContabile": "xxxxxxxx",
+          "CondizioniBonifico": {
+            "Condizione": {
+              "CodiceCondizione": "xxxxxxxx",
+              "Descrizione": " Comm.Bon.Stessa Banca ",
+              "Divisa": null,
+              "isPenale": null,
+              "Valore": "0.00"
+            }
+          },
+          "DataValutaBeneficiario": "05/07/2016",
+          "DataValutaOrdinante": "05/07/2016",
+          "IdContabile": "1074392698",
+          "Ordinante": "ProvaSender",
+          "Causale": "Bonifico in PRE",
+          "Beneficiario": "ProvaReceiver",
+          "NumeroProtocolloOperazione": "20160705000000010191",
+          "TipoAgevolazione": null,
+          "BICBeneficiario": "SELBIT2BXXX",
+          "TipoSpese": "SHA",
+          "ContoAddebitoSpese": {
+            "Conto": {
+              "IDConto": null,
+              "NumeroConto": null,
+              "TipoConto": null,
+              "IBAN": null
+            }
+          },
+          "ContoOrdinante": "52724226990",
+          "NomeBeneficiario": "ProvaReceiver",
+          "IndirizzoBeneficiario": null,
+          "ContoBeneficiario": "IT08W03268223000EM000000101",
+          "BICBancaBeneficiario": "SELBIT2BXXX",
+          "NomeBancaBeneficiario": null,
+          "CittaBancaBeneficiario": null,
+          "PaeseBancaBeneficiario": "IT",
+          "Importo": null,
+          "ImportoOrdine": {
+            "ValoreImporto": "1.00",
+            "DivisaImporto": {
+              "CodiceDivisa": "EUR"
+            }
+          },
+          "DataOrdine": "05/07/2016",
+          "DataRegolamento": "05/07/2016",
+          "DataEsecuzione": "05/07/2016",
+          "URI": null,
+          "NumeroProtocollo": null,
+          "Cambi": null,
+          "ControvaloreAddebito": null
+        }
+      }
+    }
+  ]
+}
