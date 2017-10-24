@@ -1,0 +1,8 @@
+{
+  "payerIban": "IT07M0326849130052XX33r2r80XX18",
+  "beneficiaryIban": "IT07M03268491300532f2f2XX380XX19",
+  "beneficiary": "Justin",
+  "value": "1.00",
+  "reason": "Api first example",
+  "beneficiaryDate": "01/01/2017"
+}

@@ -1,0 +1,15 @@
+{
+  "status": {
+    "code": "OK",
+    "description": "Mock Balance Retrieved"
+  },
+  "error": {
+    "description": ""
+  },
+  "payload": [
+    {
+      "balance": "100",
+      "availableBalance": "200"
+    }
+  ]
+}

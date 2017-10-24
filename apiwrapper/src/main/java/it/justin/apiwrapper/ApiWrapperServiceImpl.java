@@ -25,20 +25,19 @@ public class ApiWrapperServiceImpl implements ApiWrapperService {
 
     private static final Logger LOG = getLogger(ApiWrapperServiceImpl.class);
 
-    @Value("${apiwrapper.endpoint.url.getbalance}")
-    private String getBalanceEndpoint;
-
-    @Value("${apiwrapper.endpoint.url.moneytransfer}")
-    private String moneyTranferEndpoint;
+    @Autowired
+    private ApiWrapperServiceProperties apiWrapperServiceProperties;
 
     private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
-    private HttpHeaders headers = new HttpHeaders();
+    private HttpHeaders headers;
 
     @Autowired
     public ApiWrapperServiceImpl() {
         this.restTemplate = new RestTemplateBuilder().build();
+        this.headers = new HttpHeaders();
+        this.objectMapper = new ObjectMapper();
     }
 
     public AccountBalanceResponse getAccountBalance(Long accountNumber) {
@@ -49,9 +48,12 @@ public class ApiWrapperServiceImpl implements ApiWrapperService {
         jsonObject.addProperty("accountNumber", accountNumber);
 
         HttpEntity<String> httpEntity = new HttpEntity<String>(jsonObject.toString(), headers);
-        String response = restTemplate.postForObject(getBalanceEndpoint, httpEntity, String.class);
+        LOG.info("balance endpoint:"+apiWrapperServiceProperties.getBalanceEndpoint());
+        String response = restTemplate.postForObject(apiWrapperServiceProperties.getBalanceEndpoint(), httpEntity, String.class);
         String balance = null;
         String availableBalance = null;
+
+        LOG.info(response);
 
         try {
             JsonNode jsonNode = objectMapper.readValue(response, JsonNode.class);
@@ -80,8 +82,8 @@ public class ApiWrapperServiceImpl implements ApiWrapperService {
         jsonObject.addProperty("beneficiary_date", moneyTransfer.getBeneficiaryDate());
 
         HttpEntity<String> httpEntity = new HttpEntity<String>(jsonObject.toString(), headers);
-        String response = restTemplate.postForObject(moneyTranferEndpoint,httpEntity, String.class);
-
+        String response = restTemplate.postForObject(apiWrapperServiceProperties.getMoneyTranferEndpoint(),httpEntity, String.class);
+        LOG.info(response);
         String esito = null;
         String idBonifico = null;
 
