@@ -10,6 +10,7 @@ Le tecnologie utilizzate sono:
 3. Postman per le chiamate e ambiente di test
 4. Intellij IDEA IDE
 5. Maven
+6. Wiremock per i test
 
 ## Endpoints
 ### POST per effettuare un bonifico (porta 8080)
@@ -32,7 +33,7 @@ POST api/account-service/v1/moneytransfer Content-Type: application/json
     "Esito": "OK"
 }
 ```
-Se un campo non è inviato (o scritto male), l'applicativo lancia un ValidationExceptione ritornerà un messaggio di errore con status code 400
+Se un campo non è inviato (o scritto male), l'applicativo lancia un ValidationException ritornerà un messaggio di errore con status code 400
 ### GET per ottenere il bilancio dell account (porta 8080)
 ```json
 GET api/account-service/v1/getbalance/{accountId} Content-Type: application/json
@@ -44,4 +45,8 @@ GET api/account-service/v1/getbalance/{accountId} Content-Type: application/json
     "availableBalance": "450"
 }
 ```
-Nota: si può utilizzare il wrapper maven fornito direttamente nella cartella. 
+Nota: si può utilizzare il wrapper maven fornito direttamente nella cartella.
+
+Possibili miglioramenti futuri: 
+* implementazione di messaggi custom di successo/errore; 
+* gestione eccezioni con bind dell'errore su un pojo e ritorno del messaggio in JSON.
