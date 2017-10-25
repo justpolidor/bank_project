@@ -25,8 +25,8 @@ Se un campo non è inviato (o scritto male), l'applicativo lancia un ValidationE
 ```json
 POST api/account-service/v1/moneytransfer Content-Type: application/json
 {
-  "payerIban": "IT07M0326849130052XX33r2r80XX18",
-  "beneficiaryIban": "IT07M03268491300532f2f2XX380XX19",
+  "payerIban": "IT30C4232333335123456789012",
+  "beneficiaryIban": "IT30C4232333335123456789011",
   "beneficiary": "Justin",
   "value": "1.00",
   "reason": "Api first example",
