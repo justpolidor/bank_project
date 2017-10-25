@@ -32,7 +32,7 @@ POST api/account-service/v1/moneytransfer Content-Type: application/json
     "Esito": "OK"
 }
 ```
-
+Se un campo non è inviato (o scritto male), l'applicativo lancia un ValidationExceptione ritornerà un messaggio di errore con status code 400
 ### GET per ottenere il bilancio dell account (porta 8080)
 ```json
 GET api/account-service/v1/getbalance/{accountId} Content-Type: application/json
