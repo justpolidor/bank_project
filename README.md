@@ -12,8 +12,9 @@ Le tecnologie utilizzate sono:
 5. Maven
 6. Wiremock per i test
 
+(porta utilizzata è quella di default, 8080)
 ## Endpoints
-### POST per effettuare un bonifico (porta 8080)
+### POST per effettuare un bonifico 
 ```json
 POST api/account-service/v1/moneytransfer Content-Type: application/json
 {
@@ -34,7 +35,7 @@ POST api/account-service/v1/moneytransfer Content-Type: application/json
 }
 ```
 Se un campo non è inviato (o scritto male), l'applicativo lancia un ValidationException ritornerà un messaggio di errore con status code 400
-### GET per ottenere il bilancio dell account (porta 8080)
+### GET per ottenere il bilancio dell account 
 ```json
 GET api/account-service/v1/getbalance/{accountId} Content-Type: application/json
 ```
