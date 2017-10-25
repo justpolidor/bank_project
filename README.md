@@ -17,7 +17,10 @@ Le tecnologie utilizzate sono:
 MoneyTransfer è l'oggetto java passato a questo endpoint, che prende i dati json ed effettua il bind con quelli al suo interno; qui avviene una validazione:
 * tutti i valori non possono essere null
 * gli iban devono essere italiani e validi (controllo con un regex).
+
 Se un campo non è inviato (o scritto male), l'applicativo lancia un ValidationException che ritornerà un messaggio di errore con status code 400.
+
+**Gli Iban sono stati generati utilizzando questo servizio: https://bank.codes/iban/generate/italy/**
 ### POST per effettuare un bonifico 
 ```json
 POST api/account-service/v1/moneytransfer Content-Type: application/json
