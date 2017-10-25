@@ -17,7 +17,7 @@ public class RestIntegrationSetup extends ResourceConfig {
     private static final Logger LOG = getLogger(RestIntegrationSetup.class);
 
     public RestIntegrationSetup() {
-        this.property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
+        this.property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, false);
         this.property(ServerProperties.BV_DISABLE_VALIDATE_ON_EXECUTABLE_OVERRIDE_CHECK, true);
         register(GenericExceptionMapper.class);
         register(AccountServiceImpl.class);
