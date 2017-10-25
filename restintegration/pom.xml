@@ -23,6 +23,10 @@
             <artifactId>spring-boot-starter-jersey</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.glassfish.jersey.ext</groupId>
+            <artifactId>jersey-bean-validation</artifactId>
+        </dependency>
+        <dependency>
             <groupId>it.justin</groupId>
             <artifactId>model</artifactId>
             <version>${model.version}</version>

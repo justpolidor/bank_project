@@ -16,8 +16,12 @@ public class AccountServiceImpl implements AccountService {
 
     private static final Logger LOG = getLogger(AccountServiceImpl.class);
 
+    private final ApiWrapperService apiWrapperService;
+
     @Autowired
-    private ApiWrapperService apiWrapperService;
+    public AccountServiceImpl(ApiWrapperService apiWrapperService) {
+        this.apiWrapperService = apiWrapperService;
+    }
 
     public AccountBalanceResponse getBalance(Long accountNumber) {
         LOG.info(this.getClass().getName() + "-> getBalance() with accountID:"+accountNumber);

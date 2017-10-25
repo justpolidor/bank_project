@@ -25,8 +25,7 @@ public class ApiWrapperServiceImpl implements ApiWrapperService {
 
     private static final Logger LOG = getLogger(ApiWrapperServiceImpl.class);
 
-    @Autowired
-    private ApiWrapperServiceProperties apiWrapperServiceProperties;
+    private final ApiWrapperServiceProperties apiWrapperServiceProperties;
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -34,10 +33,11 @@ public class ApiWrapperServiceImpl implements ApiWrapperService {
     private HttpHeaders headers;
 
     @Autowired
-    public ApiWrapperServiceImpl() {
+    public ApiWrapperServiceImpl(ApiWrapperServiceProperties apiWrapperServiceProperties) {
         this.restTemplate = new RestTemplateBuilder().build();
         this.headers = new HttpHeaders();
         this.objectMapper = new ObjectMapper();
+        this.apiWrapperServiceProperties = apiWrapperServiceProperties;
     }
 
     public AccountBalanceResponse getAccountBalance(Long accountNumber) {
@@ -46,9 +46,8 @@ public class ApiWrapperServiceImpl implements ApiWrapperService {
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("accountNumber", accountNumber);
-
+        LOG.info("POST TO " + apiWrapperServiceProperties.getBalanceEndpoint());
         HttpEntity<String> httpEntity = new HttpEntity<String>(jsonObject.toString(), headers);
-        LOG.info("balance endpoint:"+apiWrapperServiceProperties.getBalanceEndpoint());
         String response = restTemplate.postForObject(apiWrapperServiceProperties.getBalanceEndpoint(), httpEntity, String.class);
         String balance = null;
         String availableBalance = null;

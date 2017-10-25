@@ -4,6 +4,7 @@ import it.justin.apiwrapper.dto.accountBalance.AccountBalanceResponse;
 import it.justin.apiwrapper.dto.moneyTransfer.MoneyTransferResponse;
 import it.justin.model.MoneyTransfer;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
@@ -19,5 +20,5 @@ public interface AccountService {
     @Path("/moneytransfer")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    MoneyTransferResponse doMoneyTransfer(MoneyTransfer moneyTransfer);
+    MoneyTransferResponse doMoneyTransfer(@Valid MoneyTransfer moneyTransfer);
 }

@@ -1,12 +1,23 @@
 package it.justin.model;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 public class MoneyTransfer {
 
+    @NotNull(message = "A Valid IT IBAN required")
+    @Pattern(regexp = "IT\\d{2}[ ][a-zA-Z]\\d{3}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{3}|IT\\d{2}[a-zA-Z]\\d{22}")
     private String payerIban;
+    @NotNull(message = "A Valid IT IBAN required")
+    @Pattern(regexp = "IT\\d{2}[ ][a-zA-Z]\\d{3}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{4}[ ]\\d{3}|IT\\d{2}[a-zA-Z]\\d{22}")
     private String beneficiaryIban;
+    @NotNull(message = "Beneficiary required")
     private String beneficiary;
+    @NotNull(message = "Value required")
     private String value;
+    @NotNull(message = "Reason Required")
     private String reason;
+    @NotNull(message = "Beneficiary date required")
     private String beneficiaryDate;
 
     public MoneyTransfer() {
