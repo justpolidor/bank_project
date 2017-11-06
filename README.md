@@ -1,5 +1,4 @@
 # bank_project
-Banca sella interview project using platfr.io APIs
 
 Il progetto è stato implementato utilizzando una struttura a moduli e integrato Jersey Jax-rs per l'implementazione REST (https://jersey.github.io).
 
