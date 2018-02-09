@@ -2,8 +2,6 @@ package it.justin.service;
 
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.google.gson.JsonObject;
-import it.justin.apiwrapper.ApiWrapperService;
 import it.justin.apiwrapper.ApiWrapperServiceProperties;
 import it.justin.apiwrapper.dto.accountBalance.AccountBalanceResponse;
 import it.justin.apiwrapper.dto.moneyTransfer.MoneyTransferResponse;
@@ -19,23 +17,15 @@ import org.junit.runner.RunWith;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
-
-import javax.ws.rs.BadRequestException;
-import javax.xml.bind.ValidationException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
-import static com.github.tomakehurst.wiremock.http.Fault.RANDOM_DATA_THEN_CLOSE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -76,7 +66,7 @@ public class AccountServiceTest {
                 .willReturn(aResponse().withStatus(200)
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                         .withBodyFile("accountBalanceResponse.json")));
-        AccountBalanceResponse accountBalanceResponse = this.accountService.getBalance(accountNumber);
+        AccountBalanceResponse accountBalanceResponse = this.accountService.balance(accountNumber);
         assertThat(accountBalanceResponse.getBalance()).isEqualTo("100");
         assertThat(accountBalanceResponse.getAvailableBalance()).isEqualTo("200");
 
@@ -97,7 +87,7 @@ public class AccountServiceTest {
                 .willReturn(aResponse().withStatus(201)
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                         .withBodyFile("moneyTransferResponse.json")));
-        MoneyTransferResponse moneyTransferResponse = this.accountService.doMoneyTransfer(moneyTransfer);
+        MoneyTransferResponse moneyTransferResponse = this.accountService.moneyTransfer(moneyTransfer);
         assertThat(moneyTransferResponse.getEsito()).isEqualTo("OK");
     }
 
@@ -107,7 +97,7 @@ public class AccountServiceTest {
                 .willReturn(aResponse().withStatus(404)
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)));
         this.thrown.expect(RestClientException.class);
-        this.accountService.getBalance(accountNumber);
+        this.accountService.balance(accountNumber);
     }
 
     @Test
@@ -124,7 +114,7 @@ public class AccountServiceTest {
                 .willReturn(aResponse().withStatus(400)
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)));
         this.thrown.expect(HttpClientErrorException.class);
-        this.accountService.doMoneyTransfer(moneyTransfer);
+        this.accountService.moneyTransfer(moneyTransfer);
 
     }
 
@@ -143,7 +133,7 @@ public class AccountServiceTest {
                 .willReturn(aResponse().withStatus(400)
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)));
         this.thrown.expect(HttpClientErrorException.class);
-        this.accountService.doMoneyTransfer(moneyTransfer);
+        this.accountService.moneyTransfer(moneyTransfer);
     }
 
 
