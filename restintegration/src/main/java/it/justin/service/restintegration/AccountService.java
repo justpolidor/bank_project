@@ -12,13 +12,13 @@ import javax.ws.rs.core.MediaType;
 public interface AccountService {
 
     @GET
-    @Path("/balance/{accountId}")
+    @Path("/getbalance/{accountId}")
     @Produces(MediaType.APPLICATION_JSON)
-    AccountBalanceResponse balance(@PathParam("accountId") Long accountId);
+    AccountBalanceResponse getBalance(@PathParam("accountId") Long accountId);
 
     @POST
     @Path("/moneytransfer")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    MoneyTransferResponse moneyTransfer(@Valid MoneyTransfer moneyTransfer);
+    MoneyTransferResponse doMoneyTransfer(@Valid MoneyTransfer moneyTransfer);
 }

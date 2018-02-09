@@ -43,7 +43,7 @@ POST api/account-service/v1/moneytransfer Content-Type: application/json
 ### GET per ottenere il bilancio dell account 
 Ho deciso di implementare questo endpoint con il verbo GET così da utilizzare in modo canonico i verbi REST.
 ```json
-GET api/account-service/v1/balance/{accountId} Content-Type: application/json
+GET api/account-service/v1/getbalance/{accountId} Content-Type: application/json
 ```
 ## risposta
 ```json

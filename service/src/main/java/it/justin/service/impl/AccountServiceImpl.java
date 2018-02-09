@@ -23,13 +23,13 @@ public class AccountServiceImpl implements AccountService {
         this.apiWrapperService = apiWrapperService;
     }
 
-    public AccountBalanceResponse balance(Long accountNumber) {
-        LOG.info(this.getClass().getName() + "-> balance() with accountID:"+accountNumber);
+    public AccountBalanceResponse getBalance(Long accountNumber) {
+        LOG.info(this.getClass().getName() + "-> getBalance() with accountID:"+accountNumber);
         return apiWrapperService.getAccountBalance(accountNumber);
     }
 
-    public MoneyTransferResponse moneyTransfer(MoneyTransfer moneyTransfer) {
-        LOG.info(this.getClass().getName() + "-> moneyTransfer() with moneyTransfer:"+moneyTransfer.toString());
+    public MoneyTransferResponse doMoneyTransfer(MoneyTransfer moneyTransfer) {
+        LOG.info(this.getClass().getName() + "-> doMoneyTransfer() with moneyTransfer:"+moneyTransfer.toString());
         return apiWrapperService.doMoneyTransfer(moneyTransfer);
     }
 }

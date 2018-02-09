@@ -4,27 +4,33 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import it.justin.apiwrapper.ApiWrapperService;
 
+import it.justin.apiwrapper.ApiWrapperServiceImpl;
 import it.justin.apiwrapper.ApiWrapperServiceProperties;
 import it.justin.apiwrapper.dto.accountBalance.AccountBalanceResponse;
 import it.justin.apiwrapper.dto.moneyTransfer.MoneyTransferResponse;
 import it.justin.model.MoneyTransfer;
+import it.justin.service.impl.AccountServiceImpl;
 import it.justin.service.restintegration.AccountService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestClientException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Mockito.when;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @RunWith(SpringRunner.class)
@@ -67,7 +73,7 @@ public class ServicesIntegrationTest {
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                         .withBodyFile("accountBalanceResponse.json")));
         LOG.info(this.apiWrapperServiceProperties.getBalanceEndpoint());
-        AccountBalanceResponse accountServiceBalanceResponse = this.accountService.balance(1L);
+        AccountBalanceResponse accountServiceBalanceResponse = this.accountService.getBalance(1L);
         AccountBalanceResponse apiWrapperBalanceResponse = this.apiWrapperService.getAccountBalance(1L);
         assertEquals(accountServiceBalanceResponse.getBalance(), apiWrapperBalanceResponse.getBalance());
         assertEquals(accountServiceBalanceResponse.getAvailableBalance(), apiWrapperBalanceResponse.getAvailableBalance());
@@ -90,7 +96,7 @@ public class ServicesIntegrationTest {
                         .withBodyFile("moneyTransferResponse.json")));
 
         MoneyTransferResponse apiWrapperMoneyTransferResponse = this.apiWrapperService.doMoneyTransfer(moneyTransfer);
-        MoneyTransferResponse accountServiceMoneyTransferResponse = this.accountService.moneyTransfer(moneyTransfer);
+        MoneyTransferResponse accountServiceMoneyTransferResponse = this.accountService.doMoneyTransfer(moneyTransfer);
 
         assertEquals(apiWrapperMoneyTransferResponse, accountServiceMoneyTransferResponse);
     }
